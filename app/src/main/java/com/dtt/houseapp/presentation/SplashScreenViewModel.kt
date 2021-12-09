@@ -10,17 +10,16 @@ import kotlinx.coroutines.launch
 
 class SplashScreenViewModel(application: Application) : AndroidViewModel(application) {
 
-    var liveData: MutableLiveData<SplashModel> = MutableLiveData()
+    var liveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun initSplashScreen() {
         viewModelScope.launch {
             delay(2000)
-            updateLiveData()
+            startShowMainScreen()
         }
     }
 
-    private fun updateLiveData() {
-        val splashModel = SplashModel()
-        liveData.value = splashModel
+    private fun startShowMainScreen() {
+        liveData.value = true
     }
 }

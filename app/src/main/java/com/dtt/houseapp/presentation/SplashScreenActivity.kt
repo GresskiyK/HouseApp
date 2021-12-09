@@ -15,6 +15,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         initViewModel()
+        initSplashScreen()
         observeSplashLiveData()
     }
 
@@ -24,13 +25,15 @@ class SplashScreenActivity : AppCompatActivity() {
         splashViewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
     }
 
-    private fun observeSplashLiveData() {
+    private fun initSplashScreen(){
         splashViewModel.initSplashScreen()
-        val observer = Observer<SplashModel> {
-            val intent = Intent(this, MainActivity::class.java)
+    }
+
+    private fun observeSplashLiveData() {
+        splashViewModel.liveData.observe(this){
+            val intent = Intent(this, MainScreen::class.java)
             startActivity(intent)
             finish()
         }
-        splashViewModel.liveData.observe(this, observer)
     }
 }
