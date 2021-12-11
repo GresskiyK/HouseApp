@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10364583333333334" />
         <entry key="app/src/main/res/drawable/bottom_nav_item_color.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/drawable/ic_about.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.21145833333333333" />
@@ -14,10 +15,11 @@
         <entry key="app/src/main/res/drawable/shadow.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/drawable/shadow_for_bottom_navigation_bar.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16770833333333332" />
-        <entry key="app/src/main/res/layout/activity_main_screen.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21739130434782608" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.21739130434782608" />
+        <entry key="app/src/main/res/layout/house_card.xml" value="0.335" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2953125" />
       </map>
     </option>

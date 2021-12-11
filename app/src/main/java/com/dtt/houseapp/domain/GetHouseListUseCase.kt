@@ -1,4 +1,10 @@
 package com.dtt.houseapp.domain
 
-class GetHouseListUseCase {
+import androidx.lifecycle.LiveData
+
+class GetHouseListUseCase(private val houseListRepository: HouseListRepository)  {
+
+    fun getHouseList(): LiveData<List<HouseItem>> {
+        return houseListRepository.houseList()
+    }
 }
