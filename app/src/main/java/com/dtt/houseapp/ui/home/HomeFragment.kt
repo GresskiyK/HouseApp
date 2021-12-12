@@ -47,9 +47,9 @@ class HomeFragment : Fragment() {
 
     private fun setRecycler(){
         rvLayoutManager = LinearLayoutManager(activity)
+        houseListAdapter= HouseListAdapter(this)
         with(rvHouseRecycler){
             layoutManager = rvLayoutManager
-            houseListAdapter= HouseListAdapter()
             adapter=houseListAdapter
         }
 
@@ -60,7 +60,6 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
         homeViewModel.houseList.observe(viewLifecycleOwner){
             houseListAdapter.submitList(it)
-            Log.d("MainViewModelTest",it.toString())
         }
     }
 }
