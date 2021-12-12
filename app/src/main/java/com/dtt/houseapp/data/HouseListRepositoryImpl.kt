@@ -1,12 +1,15 @@
 package com.dtt.houseapp.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dtt.houseapp.data.API.ApiProtocol
+import com.dtt.houseapp.data.API.ApiRequests
+import com.dtt.houseapp.data.API.HouseAPIModel
 import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.domain.HouseListRepository
-import kotlin.random.Random
 
-object HouseListRepositoryImpl:HouseListRepository {
+object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
 
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
 
@@ -15,15 +18,11 @@ object HouseListRepositoryImpl:HouseListRepository {
 
 
     init {
-        for (i in 0 until 10){
-            val item = HouseItem(i+1,100,"Street",50,3,4,54.5F)
-            addHouseItem(item)
-        }
+        ApiRequests().getHouseList()
     }
 
     private fun updateShopListLiveData(){
         houseListLiveData.postValue(houseListItems.toList())
-
     }
 
     override fun addHouseItem(houseItem: HouseItem) {
@@ -33,5 +32,13 @@ object HouseListRepositoryImpl:HouseListRepository {
 
     override fun houseList(): LiveData<List<HouseItem>> {
         return houseListLiveData
+    }
+
+    override fun getHouseList(list: List<HouseItem>) {
+        for (item in list){
+            addHouseItem(item)
+            Log.i("TestApi", item.toString())
+
+        }
     }
 }

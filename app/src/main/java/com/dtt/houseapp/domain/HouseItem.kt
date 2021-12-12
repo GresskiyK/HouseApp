@@ -1,12 +1,19 @@
 package com.dtt.houseapp.domain
 
+import java.util.*
+
 data class HouseItem(
     val id:Int,
+    val imageLink:String,
     val price:Int,
-    val street:String,
-    val size:Int,
     val bedroomAmount:Int,
     val bathroomAmount:Int,
-    val distance:Float) {
+    val size:Int,
+    val description:String,
+    val zip:String,
+    val city:String,
+    val latitude:Int,
+    val longitude:Int,
+    val createdDate:String) {
 
 }
