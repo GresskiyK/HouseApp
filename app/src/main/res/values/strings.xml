@@ -4,4 +4,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="information_description">This app provide an actual information about local advertisements of houses. It gives an opportunity to look first at the most cheap variants and then to find the most compliant choice using the search field.\nProject was developed by Kirill Gresskiy and published on a GitHub Repository.</string>
+    <string name="dtt_link">d-tt.nl</string>
+
 </resources>

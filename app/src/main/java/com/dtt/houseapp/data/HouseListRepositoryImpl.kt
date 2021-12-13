@@ -13,7 +13,7 @@ object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
 
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
 
-    private val houseListItems = sortedSetOf<HouseItem>({ p0, p1 -> p0.id.compareTo(p1.id) })
+    private val houseListItems = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price) })
 
 
 
