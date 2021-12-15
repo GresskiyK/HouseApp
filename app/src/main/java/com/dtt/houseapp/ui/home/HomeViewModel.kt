@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dtt.houseapp.data.HouseListRepositoryImpl
 import com.dtt.houseapp.domain.GetHouseListUseCase
+import com.dtt.houseapp.domain.SearchHouseItemCase
 
 class HomeViewModel : ViewModel() {
 
@@ -12,11 +13,15 @@ class HomeViewModel : ViewModel() {
 
     //insert implementation of getHouseListCase methods
     private val getHouseListCase = GetHouseListUseCase(repository)
-
+    private val searchHouseItemCase = SearchHouseItemCase(repository)
 
 
 
     val houseList = getHouseListCase.getHouseList()
 
+
+     fun receiveFilterQuery(query:String){
+        searchHouseItemCase.searchHouse(query)
+    }
 
 }
