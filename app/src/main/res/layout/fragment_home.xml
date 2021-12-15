@@ -7,14 +7,70 @@
     android:background="@color/white"
     tools:context=".ui.home.HomeFragment">
 
+    <ImageView
+        android:id="@+id/imageViewEmptySearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/search_state_empty"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/houseRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/houseRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="15dp"
+        android:fontFamily="@font/gothamssm_bold"
+        android:textSize="18sp"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textAlignment="textStart"
+        android:text="DTT Real Estate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <SearchView
+            android:id="@+id/searchViewHouses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/rounded_corners_for_textview"
+            android:closeIcon="@drawable/ic_close"
+            android:iconifiedByDefault="false"
+            android:queryHint="Insert index of house"
+            android:searchIcon="@null"
+            android:theme="@style/SearchViewStyle" />
+    </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,30 +1,29 @@
 package com.dtt.houseapp.presentation
 
-import android.app.Activity
-import android.content.Context
-import android.media.Image
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dtt.houseapp.R
 import com.dtt.houseapp.domain.HouseItem
-import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class HouseListAdapter(private val context:Fragment):ListAdapter<HouseItem,HouseListAdapter.HouseListViewHolder>(HouseItemDiff()) {
-
-
+class HouseListAdapter(private val context:Fragment):ListAdapter<HouseItem,
+        HouseListAdapter.HouseListViewHolder>(HouseItemDiff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseListViewHolder {
 
-        val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.house_card,parent,false)
+        val viewHolder = LayoutInflater.from(parent.context)
+            .inflate(R.layout.house_card,parent,false)
         return HouseListViewHolder(viewHolder)
     }
 
@@ -40,6 +39,7 @@ class HouseListAdapter(private val context:Fragment):ListAdapter<HouseItem,House
 
 
     }
+
 
     class HouseListViewHolder(view: View):RecyclerView.ViewHolder(view){
         var ivHouse: ImageView = view.findViewById(R.id.imageViewHouse)
