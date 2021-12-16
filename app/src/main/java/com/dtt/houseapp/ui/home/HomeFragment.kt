@@ -1,17 +1,24 @@
 package com.dtt.houseapp.ui.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
+import com.dtt.houseapp.utils.LocationUtility
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -22,8 +29,6 @@ class HomeFragment : Fragment() {
     private lateinit var rvHouseRecycler:RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var imageViewEmptySearch:ImageView
-
-
 
 
     override fun onCreateView(
@@ -38,10 +43,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         setRecycler()
+        setSearchViewListener()
         initViewModel()
         observeViewModel()
-        setSearchViewListener()
-
     }
 
     private fun initViews(view:View){
@@ -86,9 +90,10 @@ class HomeFragment : Fragment() {
 
             override fun onQueryTextChange(query: String?): Boolean {
                 homeViewModel.receiveFilterQuery(query.toString())
-                return false
+                    return false
             }
         })
     }
+
 
 }
