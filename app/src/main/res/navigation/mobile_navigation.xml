@@ -9,12 +9,27 @@
         android:id="@+id/navigation_home"
         android:name="com.dtt.houseapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_houseDetailsFragment2"
+            app:destination="@id/houseDetailsFragment"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.dtt.houseapp.ui.notifications.InformationFragment"
+        android:name="com.dtt.houseapp.ui.informationScreen.InformationFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_information" />
+    <fragment
+        android:id="@+id/houseDetailsFragment"
+        android:name="com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment"
+        android:label="fragment_house_details"
+        tools:layout="@layout/fragment_house_details" />
 </navigation>
