@@ -1,23 +1,30 @@
 package com.dtt.houseapp.ui.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
+import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
+import com.dtt.houseapp.utils.Communicator
 import com.dtt.houseapp.utils.LocationUtility
 import java.util.*
 
@@ -29,6 +36,11 @@ class HomeFragment : Fragment() {
     private lateinit var rvHouseRecycler:RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var imageViewEmptySearch:ImageView
+    private lateinit var inputMethodManager:InputMethodManager
+
+    private val communicatorViewModel: Communicator by activityViewModels()
+
+
 
 
     override fun onCreateView(
@@ -46,6 +58,7 @@ class HomeFragment : Fragment() {
         setSearchViewListener()
         initViewModel()
         observeViewModel()
+        houseItemClickListener()
     }
 
     private fun initViews(view:View){
@@ -69,6 +82,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel(){
+
         homeViewModel.houseList.observe(viewLifecycleOwner){
             if(it.isNotEmpty()){
                 imageViewEmptySearch.visibility = View.GONE
@@ -93,6 +107,24 @@ class HomeFragment : Fragment() {
                     return false
             }
         })
+    }
+
+    private fun hideKeyboardIfNeeded(){
+        inputMethodManager =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+    }
+
+    private fun houseItemClickListener() {
+        houseListAdapter.onHouseItemShortClickListener = {
+            hideKeyboardIfNeeded()
+            communicatorViewModel.setHouseItem(it)
+            val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top,R.anim.slide_in_top,R.anim.slide_out_bottom)
+            transaction.replace(R.id.houseListFragment, HouseDetailsFragment())
+            transaction.addToBackStack("tag")
+            transaction.commit()
+        }
     }
 
 

@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dtt.houseapp.R
 import com.dtt.houseapp.domain.HouseItem
+import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import java.util.*
 import kotlin.collections.ArrayList
 
 class HouseListAdapter(private val context:Fragment):ListAdapter<HouseItem,
         HouseListAdapter.HouseListViewHolder>(HouseItemDiff()) {
+
+    var onHouseItemShortClickListener:((HouseItem)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseListViewHolder {
 
@@ -37,9 +40,12 @@ class HouseListAdapter(private val context:Fragment):ListAdapter<HouseItem,
         holder.tvDistance.text = "0"
         Glide.with(context).load(item.imageLink).into(holder.ivHouse)
 
+        holder.itemView.setOnClickListener {
+            onHouseItemShortClickListener?.invoke(item)
+        }
+
 
     }
-
 
     class HouseListViewHolder(view: View):RecyclerView.ViewHolder(view){
         var ivHouse: ImageView = view.findViewById(R.id.imageViewHouse)
