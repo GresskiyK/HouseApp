@@ -1,18 +1,14 @@
-package com.dtt.houseapp.utils
+package com.dtt.houseapp.utils.locationservice
 
-import android.Manifest
 import android.app.Activity
-import android.content.pm.PackageManager
 import android.location.Location
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dtt.houseapp.data.API.ApiRequests
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 
-object LocationUtility:LocationUtilityRepository {
+object LocationUtility: LocationUtilityRepository {
 
     private val locationAvailability = MutableLiveData<Boolean>()
     private val locationObject= MutableLiveData<LocationModel>()
@@ -51,7 +47,4 @@ object LocationUtility:LocationUtilityRepository {
         return locationObject
     }
 
-    override fun getStatus(): LiveData<Boolean> {
-        return locationAvailability
-    }
 }

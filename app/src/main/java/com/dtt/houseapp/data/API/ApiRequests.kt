@@ -41,6 +41,7 @@ class ApiRequests{
                                 responseArray[i].createdDate,
                             )
                         )
+                        Log.i("TestAPI", i.toString())
                     }
                 }
 

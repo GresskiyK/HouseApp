@@ -17,9 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
-import com.dtt.houseapp.utils.Communicator
-import com.dtt.houseapp.utils.LocationModel
-import com.dtt.houseapp.utils.LocationUtility
+import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
+import com.dtt.houseapp.utils.locationservice.LocationModel
 
 class HomeFragment : Fragment() {
 
@@ -30,8 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var imageViewEmptySearch:ImageView
     private lateinit var inputMethodManager:InputMethodManager
-
-    private val communicatorViewModel: Communicator by activityViewModels()
+    private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +45,6 @@ class HomeFragment : Fragment() {
         initViewModel()
         observeLocation()
         setSearchViewListener()
-
     }
 
     private fun initViews(view:View){
@@ -77,7 +74,6 @@ class HomeFragment : Fragment() {
               setRecycler(it)
         }
     }
-
 
     private fun observeViewModelSearch(){
         homeViewModel.houseList.observe(viewLifecycleOwner){
@@ -114,7 +110,7 @@ class HomeFragment : Fragment() {
     private fun houseItemClickListener() {
         houseListAdapter.onHouseItemShortClickListener = {
             hideKeyboardIfNeeded()
-            communicatorViewModel.setHouseItem(it)
+            communicatorForHouseDetailsScreenViewModel.setHouseItem(it)
             val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top,R.anim.slide_in_top,R.anim.slide_out_bottom)
             transaction.replace(R.id.houseListFragment, HouseDetailsFragment())

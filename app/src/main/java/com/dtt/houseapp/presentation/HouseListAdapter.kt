@@ -1,7 +1,6 @@
 package com.dtt.houseapp.presentation
 
 import android.location.Location
-import android.location.LocationManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dtt.houseapp.R
 import com.dtt.houseapp.domain.HouseItem
-import com.dtt.houseapp.ui.home.HomeFragment
-import com.dtt.houseapp.utils.LocationModel
-import java.util.*
+import com.dtt.houseapp.utils.locationservice.LocationModel
+import com.google.android.gms.maps.model.LatLng
 import kotlin.math.round
 
 class HouseListAdapter(private val context:Fragment, private val location: LocationModel):ListAdapter<HouseItem,
@@ -41,9 +39,8 @@ class HouseListAdapter(private val context:Fragment, private val location: Locat
         Glide.with(context).load(item.imageLink).into(holder.ivHouse)
         val results = FloatArray(1)
         if(location.latitude!=null && location.longitude!=null){
-            Location.distanceBetween(location.latitude!!,
-                location.longitude!!, item.longitude.toDouble() ,item.latitude.toDouble(),results)
-            holder.tvDistance.text = round((results[0]*0.000003281)).toString()
+            Location.distanceBetween(location.latitude!!, location.longitude!!, item.latitude.toDouble(), item.longitude.toDouble(),results)
+            holder.tvDistance.text = String.format("%.1f",results[0]/1000) + " km"
         }else{
             holder.tvDistance.text = "0"
         }

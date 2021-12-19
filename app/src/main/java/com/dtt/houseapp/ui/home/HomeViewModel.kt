@@ -1,14 +1,11 @@
 package com.dtt.houseapp.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dtt.houseapp.data.HouseListRepositoryImpl
 import com.dtt.houseapp.domain.GetHouseListUseCase
 import com.dtt.houseapp.domain.GetLocationObject
-import com.dtt.houseapp.domain.GetStatusOfLocation
 import com.dtt.houseapp.domain.SearchHouseItemCase
-import com.dtt.houseapp.utils.LocationUtility
+import com.dtt.houseapp.utils.locationservice.LocationUtility
 
 class HomeViewModel : ViewModel() {
 
