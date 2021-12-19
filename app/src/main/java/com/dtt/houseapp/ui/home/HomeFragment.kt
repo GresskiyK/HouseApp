@@ -1,7 +1,6 @@
 package com.dtt.houseapp.ui.home
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,20 +10,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
-import com.dtt.houseapp.presentation.HouseListAdapterRepository
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.Communicator
 import com.dtt.houseapp.utils.LocationModel
-import java.util.*
+import com.dtt.houseapp.utils.LocationUtility
 
 class HomeFragment : Fragment() {
 
@@ -49,10 +44,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
-        setSearchViewListener()
         initViewModel()
-        observeViewModel()
-        observeLocationAvailability()
+        observeLocation()
+        setSearchViewListener()
+
     }
 
     private fun initViews(view:View){
@@ -64,6 +59,7 @@ class HomeFragment : Fragment() {
     private fun setRecycler(locationModel: LocationModel){
         rvLayoutManager = LinearLayoutManager(activity)
         houseListAdapter= HouseListAdapter(this,locationModel)
+        observeViewModelSearch()
         houseItemClickListener()
         with(rvHouseRecycler){
             layoutManager = rvLayoutManager
@@ -75,23 +71,15 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
-    private fun observeLocationAvailability(){
-        homeViewModel.locationStatus.observe(viewLifecycleOwner){
-            if (it){
-                observeLocation()
-            }
-            else{
-                setRecycler(LocationModel(0.0,0.0))
-            }
-        }
-    }
     private fun observeLocation(){
         homeViewModel.locationObject.observe(viewLifecycleOwner){
-            setRecycler(it)
+            Log.i("LocationTester",it.latitude.toString())
+              setRecycler(it)
         }
     }
 
-    private fun observeViewModel(){
+
+    private fun observeViewModelSearch(){
         homeViewModel.houseList.observe(viewLifecycleOwner){
             if(it.isNotEmpty()){
                 imageViewEmptySearch.visibility = View.GONE
@@ -110,7 +98,6 @@ class HomeFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-
             override fun onQueryTextChange(query: String?): Boolean {
                 homeViewModel.receiveFilterQuery(query.toString())
                     return false

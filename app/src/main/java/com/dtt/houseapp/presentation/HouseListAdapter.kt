@@ -22,8 +22,6 @@ import kotlin.math.round
 class HouseListAdapter(private val context:Fragment, private val location: LocationModel):ListAdapter<HouseItem,
         HouseListAdapter.HouseListViewHolder>(HouseItemDiff()) {
 
-    private val adapterRepository = HomeFragment()
-
 
     var onHouseItemShortClickListener:((HouseItem)->Unit)? = null
 
@@ -42,8 +40,13 @@ class HouseListAdapter(private val context:Fragment, private val location: Locat
         holder.tvSize.text = item.size.toString()
         Glide.with(context).load(item.imageLink).into(holder.ivHouse)
         val results = FloatArray(1)
-        Location.distanceBetween(location.latitude,location.longitude, item.longitude.toDouble() ,item.latitude.toDouble(),results)
-        holder.tvDistance.text = round((results[0]*0.00003281)).toString()
+        if(location.latitude!=null && location.longitude!=null){
+            Location.distanceBetween(location.latitude!!,
+                location.longitude!!, item.longitude.toDouble() ,item.latitude.toDouble(),results)
+            holder.tvDistance.text = round((results[0]*0.000003281)).toString()
+        }else{
+            holder.tvDistance.text = "0"
+        }
         holder.itemView.setOnClickListener {
             onHouseItemShortClickListener?.invoke(item)
         }
