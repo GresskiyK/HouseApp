@@ -17,21 +17,13 @@ class HomeViewModel : ViewModel() {
     private val locationRepository = LocationUtility
 
     private val getLocationObject = GetLocationObject(locationRepository)
-    private val getLocationStatusCase = GetStatusOfLocation(locationRepository)
-
 
     //insert implementation of getHouseListCase methods
     private val getHouseListCase = GetHouseListUseCase(repository)
     private val searchHouseItemCase = SearchHouseItemCase(repository)
 
-
     val locationObject = getLocationObject.getLocationObject()
-    val locationStatus = getLocationStatusCase.geStatus()
-
-
-
     val houseList = getHouseListCase.getHouseList()
-
 
      fun receiveFilterQuery(query:String){
         searchHouseItemCase.searchHouse(query)

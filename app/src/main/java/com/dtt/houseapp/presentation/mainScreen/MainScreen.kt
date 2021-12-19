@@ -1,6 +1,7 @@
 package com.dtt.houseapp.presentation.mainScreen
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.dtt.houseapp.R
 import com.dtt.houseapp.databinding.ActivityMainScreenBinding
 import com.dtt.houseapp.ui.home.HomeViewModel
+import com.dtt.houseapp.utils.LocationModel
 import com.dtt.houseapp.utils.LocationUtility
 
 
@@ -26,8 +28,6 @@ class MainScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
-        observeViewModelLocationStatus()
-        observeViewModelLocationCredentials()
         requestLocation()
     }
 
@@ -36,8 +36,6 @@ class MainScreen : AppCompatActivity() {
         setContentView(binding.root)
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main_screen)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         navView.setupWithNavController(navController) }
 
 
@@ -46,29 +44,34 @@ class MainScreen : AppCompatActivity() {
             ViewModelProvider(this).get(MainScreenViewModel::class.java)
     }
     private fun requestLocation(){
-        LocationUtility.hasLocationPermissions(this)
-    }
-
-    private fun observeViewModelLocationStatus(){
-        mainScreenViewModel.status.observe(this){
-            if(!it){
-                ActivityCompat.requestPermissions(
+        if(hasLocationPermissions()){
+            LocationUtility.setLocationStatus(true)
+            startFragments()
+        }else{
+            ActivityCompat.requestPermissions(
                 this, arrayOf(
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
-                ),0
-            )}
-            else{
-                //OPEN FRAGMENTS WITH MODE LOCATION ON
-                LocationUtility.setLocation(this)
-            }
+                ),0)
         }
     }
 
-    private fun observeViewModelLocationCredentials(){
-        mainScreenViewModel.locationObject.observe(this){
-            initBottomNavigationView()
-        }
+    private fun hasLocationPermissions():Boolean{
+        return (ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+
+    private fun startFragments(){
+        //LocationUtility.setLocationStatus(userChoice)
+        LocationUtility.setLocationObject(this)
+        initBottomNavigationView()
     }
 
     override fun onRequestPermissionsResult(
@@ -84,18 +87,17 @@ class MainScreen : AppCompatActivity() {
                     alertDialog.setTitle("Notification")
                         .setMessage("Some functions related to usage of location could be unavailable.")
                         .setCancelable(false)
-                        .setPositiveButton("ОК") { _, _ ->  initBottomNavigationView()}//OPEN FRAGMENTS WITH MODE LOCATION OFF
-
+                        .setPositiveButton("ОК") { _, _ ->LocationUtility.setLocationStatus(false)
+                            startFragments()}
                     alertDialog.create()
                     alertDialog.show()
+
                     Log.i("LocationRequest","location denied")
                 }
                 else if(grantResults.isNotEmpty() || grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     Log.i("LocationRequest","location granted")
-
-                    //OPEN FRAGMENTS WITH MODE LOCATION ON
-                    LocationUtility.setLocation(this)
-
+                    LocationUtility.setLocationStatus(true)
+                    startFragments()
                 }
             }
         }

@@ -11,13 +11,4 @@ class MainScreenViewModel:ViewModel() {
 
     private val repository = LocationUtility
 
-    private val getLocationStatusCase = GetStatusOfLocation(repository)
-
-    private val getLocationObject = GetLocationObject(repository)
-
-
-    val status = getLocationStatusCase.geStatus()
-
-    val locationObject = getLocationObject.getLocationObject()
-
 }

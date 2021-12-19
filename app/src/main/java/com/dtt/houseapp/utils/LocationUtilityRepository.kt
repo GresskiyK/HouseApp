@@ -12,6 +12,6 @@ interface LocationUtilityRepository {
 
     fun getStatus():LiveData<Boolean>
 
-    fun updateStatus(status: Boolean)
+    fun updateLocationStatus(flag:Boolean)
 
 }
