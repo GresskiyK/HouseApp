@@ -1,11 +1,9 @@
 package com.dtt.houseapp.presentation.mainScreen
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.dtt.houseapp.R
 import com.dtt.houseapp.databinding.ActivityMainScreenBinding
-import com.dtt.houseapp.ui.home.HomeViewModel
-import com.dtt.houseapp.utils.LocationModel
-import com.dtt.houseapp.utils.LocationUtility
+import com.dtt.houseapp.utils.locationservice.LocationUtility
 
 
 class MainScreen : AppCompatActivity() {
@@ -38,11 +34,11 @@ class MainScreen : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main_screen)
         navView.setupWithNavController(navController) }
 
-
     private fun initViewModel(){
         mainScreenViewModel =
             ViewModelProvider(this).get(MainScreenViewModel::class.java)
     }
+
     private fun requestLocation(){
         if(hasLocationPermissions()){
             LocationUtility.setLocationStatus(true)
@@ -67,9 +63,7 @@ class MainScreen : AppCompatActivity() {
                 ) == PackageManager.PERMISSION_GRANTED)
     }
 
-
     private fun startFragments(){
-        //LocationUtility.setLocationStatus(userChoice)
         LocationUtility.setLocationObject(this)
         initBottomNavigationView()
     }
@@ -87,7 +81,8 @@ class MainScreen : AppCompatActivity() {
                     alertDialog.setTitle("Notification")
                         .setMessage("Some functions related to usage of location could be unavailable.")
                         .setCancelable(false)
-                        .setPositiveButton("ОК") { _, _ ->LocationUtility.setLocationStatus(false)
+                        .setPositiveButton("ОК") { _, _ ->
+                            LocationUtility.setLocationStatus(false)
                             startFragments()}
                     alertDialog.create()
                     alertDialog.show()

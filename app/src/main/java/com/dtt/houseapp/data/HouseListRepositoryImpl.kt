@@ -1,6 +1,5 @@
 package com.dtt.houseapp.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dtt.houseapp.data.API.ApiProtocol
@@ -8,19 +7,17 @@ import com.dtt.houseapp.data.API.ApiRequests
 import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.domain.HouseListRepository
 import java.util.*
-import kotlin.collections.ArrayList
 
 object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
 
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
-
     private val houseListItems = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price) })
-
 
 
     init {
         ApiRequests().getHouseList()
     }
+
 
     override fun updateHouseListLiveData(houseList:Set<HouseItem>){
 
@@ -39,7 +36,6 @@ object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
     override fun getHouseList(list: List<HouseItem>) {
         for (item in list){
             addHouseItem(item)
-            Log.i("TestApi", item.toString())
         }
     }
 
@@ -48,10 +44,8 @@ object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
         for (item in houseListItems){
             if (item.zip.lowercase(Locale.getDefault()).contains(query.lowercase(Locale.getDefault()))){
                 filteredHouses.add(item)
-                //Log.i("HouseFilter","Found item:"+item.price)
             }
         }
-        Log.i("HouseFilter",""+filteredHouses.size)
         updateHouseListLiveData(filteredHouses)
     }
 }

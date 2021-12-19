@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dtt.houseapp.domain.HouseItem
 
-class Communicator: ViewModel() {
+class CommunicatorForHouseDetailsScreen: ViewModel() {
 
     val houseItem = MutableLiveData<HouseItem>()
 

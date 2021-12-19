@@ -1,4 +1,4 @@
-package com.dtt.houseapp.utils
+package com.dtt.houseapp.utils.locationservice
 
 data class LocationModel(
     var latitude: Double?,

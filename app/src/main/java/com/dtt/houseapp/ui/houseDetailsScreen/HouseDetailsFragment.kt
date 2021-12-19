@@ -8,30 +8,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.dtt.houseapp.domain.HouseItem
-import com.dtt.houseapp.utils.Communicator
+import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
 
 import android.widget.ImageButton
 import android.widget.ScrollView
 import com.dtt.houseapp.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID
 import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL
 import com.google.android.gms.maps.OnMapReadyCallback
 
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.coroutines.internal.artificialFrame
-import kotlin.concurrent.fixedRateTimer
 
 
 class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
 
-    private val communicatorViewModel: Communicator by activityViewModels()
+    private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
     private lateinit var tvPrice: TextView
     private lateinit var tvBedroom: TextView
     private lateinit var tvBathroom: TextView
@@ -73,7 +69,7 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observeCommunicatorModel(){
-        communicatorViewModel.houseItem.observe(viewLifecycleOwner, {
+        communicatorForHouseDetailsScreenViewModel.houseItem.observe(viewLifecycleOwner, {
             setDataFromHouseItem(it)
         })
     }
@@ -106,7 +102,7 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        communicatorViewModel.houseItem.observe(viewLifecycleOwner, { item ->
+        communicatorForHouseDetailsScreenViewModel.houseItem.observe(viewLifecycleOwner, { item ->
             mMap = map
             val house = LatLng(	item.latitude.toDouble(), item.longitude.toDouble())
             val marker = mMap.addMarker(
