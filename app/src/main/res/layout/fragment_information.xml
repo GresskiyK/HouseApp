@@ -18,7 +18,7 @@
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textAlignment="textStart"
-        android:text="About"
+        android:text="@string/fragment_information_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:fontFamily="@font/gothamssm_bold"
-        android:text="Design and Development"
+        android:text="@string/logo_for_DTT_image"
         android:layout_marginTop="20dp"
         android:textAlignment="textStart"
         android:textColor="@color/black"

@@ -7,5 +7,9 @@
     <string name="information_description">This app provide an actual information about local advertisements of houses. It gives an opportunity to look first at the most cheap variants and then to find the most compliant choice using the search field.\nProject was developed by Kirill Gresskiy and published on a GitHub Repository.</string>
     <string name="dtt_link">d-tt.nl</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_results_found_perhaps_try_another_search">No results found!\nPerhaps try another search?</string>
+    <string name="home_screen_title">DTT Real Estate</string>
+    <string name="fragment_information_title">About</string>
+    <string name="logo_for_DTT_image">Design and Development</string>
 
 </resources>

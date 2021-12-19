@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,8 @@ class HomeFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var imageViewEmptySearch:ImageView
     private lateinit var inputMethodManager:InputMethodManager
+    private lateinit var textViewEmpty:TextView
+
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
 
     override fun onCreateView(
@@ -51,6 +54,7 @@ class HomeFragment : Fragment() {
         rvHouseRecycler = view.findViewById(R.id.houseRecycler)
         searchView = view.findViewById(R.id.searchViewHouses)
         imageViewEmptySearch = view.findViewById(R.id.imageViewEmptySearch)
+        textViewEmpty = view.findViewById(R.id.textViewEmpty)
     }
 
     private fun setRecycler(locationModel: LocationModel){
@@ -79,11 +83,13 @@ class HomeFragment : Fragment() {
         homeViewModel.houseList.observe(viewLifecycleOwner){
             if(it.isNotEmpty()){
                 imageViewEmptySearch.visibility = View.GONE
+                textViewEmpty.visibility = View.GONE
                 rvHouseRecycler.visibility = View.VISIBLE
                 houseListAdapter.submitList(it)
             }
             else{
                 rvHouseRecycler.visibility = View.GONE
+                textViewEmpty.visibility = View.VISIBLE
                 imageViewEmptySearch.visibility = View.VISIBLE
             }
         }

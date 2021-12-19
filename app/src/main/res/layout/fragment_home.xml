@@ -21,6 +21,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
+    <TextView
+        android:id="@+id/textViewEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gothamssm_light"
+        android:text="@string/no_results_found_perhaps_try_another_search"
+        android:textColor="@color/medium"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="200dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/houseRecycler"
+        app:layout_constraintStart_toEndOf="@+id/houseRecycler" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/houseRecycler"
@@ -34,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewEmptySearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -44,7 +59,7 @@
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textAlignment="textStart"
-        android:text="DTT Real Estate"
+        android:text="@string/home_screen_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +72,7 @@
         android:layout_marginHorizontal="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmptySearch">
 
         <SearchView
             android:id="@+id/searchViewHouses"
