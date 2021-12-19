@@ -1,10 +1,11 @@
-package com.dtt.houseapp.presentation
+package com.dtt.houseapp.presentation.splashScreen
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.dtt.houseapp.R
+import com.dtt.houseapp.presentation.mainScreen.MainScreen
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var splashViewModel: SplashScreenViewModel

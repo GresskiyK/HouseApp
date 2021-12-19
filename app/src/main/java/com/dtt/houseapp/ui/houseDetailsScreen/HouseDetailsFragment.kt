@@ -14,10 +14,22 @@ import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.utils.Communicator
 
 import android.widget.ImageButton
+import android.widget.ScrollView
 import com.dtt.houseapp.R
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL
+import com.google.android.gms.maps.OnMapReadyCallback
+
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.internal.artificialFrame
+import kotlin.concurrent.fixedRateTimer
 
 
-class HouseDetailsFragment : Fragment() {
+class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
 
     private val communicatorViewModel: Communicator by activityViewModels()
     private lateinit var tvPrice: TextView
@@ -28,7 +40,9 @@ class HouseDetailsFragment : Fragment() {
     private lateinit var tvDescription: TextView
     private lateinit var imageViewHouseDetail: ImageView
     private lateinit var imageButtonBack:ImageButton
-
+    private lateinit var mapFragment:SupportMapFragment
+    private lateinit var mMap: GoogleMap
+    private lateinit var scrollView:ScrollView
 
 
 
@@ -73,6 +87,8 @@ class HouseDetailsFragment : Fragment() {
         tvDescription = view.findViewById(R.id.tvDescription)
         imageViewHouseDetail = view.findViewById(R.id.imageViewHouseDetail)
         imageButtonBack = view.findViewById(R.id.imageButtonBack)
+        scrollView = view.findViewById(R.id.scrollViewHouseContent)
+        setTheMap()
     }
 
     private fun setListenerForImageButton(){
@@ -83,5 +99,52 @@ class HouseDetailsFragment : Fragment() {
                     transaction?.commit()
             }
         }
+
+    private fun setTheMap(){
+        mapFragment = childFragmentManager.findFragmentById(R.id.houseLocationMap) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        communicatorViewModel.houseItem.observe(viewLifecycleOwner, { item ->
+            mMap = map
+            val house = LatLng(	item.latitude.toDouble(), item.longitude.toDouble())
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(house)
+                    .title("Marker on selected house")
+                    .visible(true))
+            mMap.isBuildingsEnabled = true
+            mMap.mapType = MAP_TYPE_NORMAL
+            if (marker != null) {
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        marker.position, 15.0f
+                    )
+                )
+            }
+            mMap.setOnCameraMoveStartedListener {
+                when (it) {
+                    GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE -> {
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+
+                    }
+                    GoogleMap.OnCameraMoveStartedListener
+                        .REASON_API_ANIMATION -> {
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+
+                    }
+                    GoogleMap.OnCameraMoveStartedListener
+                        .REASON_DEVELOPER_ANIMATION -> {
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+
+                    }
+                }
+            }
+        })
+        // Add a marker in Sydney and move the camera
+
+    }
+
 
 }

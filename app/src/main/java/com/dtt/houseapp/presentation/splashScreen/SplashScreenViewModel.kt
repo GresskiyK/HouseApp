@@ -1,4 +1,4 @@
-package com.dtt.houseapp.presentation
+package com.dtt.houseapp.presentation.splashScreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
