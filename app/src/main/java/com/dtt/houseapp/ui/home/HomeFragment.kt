@@ -20,6 +20,8 @@ import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
 import com.dtt.houseapp.utils.locationservice.LocationModel
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -31,7 +33,6 @@ class HomeFragment : Fragment() {
     private lateinit var imageViewEmptySearch:ImageView
     private lateinit var inputMethodManager:InputMethodManager
     private lateinit var textViewEmpty:TextView
-
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
 
     override fun onCreateView(
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecycler(locationModel: LocationModel){
+
         rvLayoutManager = LinearLayoutManager(activity)
         houseListAdapter= HouseListAdapter(this,locationModel)
         observeViewModelSearch()
@@ -75,7 +77,7 @@ class HomeFragment : Fragment() {
     private fun observeLocation(){
         homeViewModel.locationObject.observe(viewLifecycleOwner){
             Log.i("LocationTester",it.latitude.toString())
-              setRecycler(it)
+                setRecycler(it)
         }
     }
 
@@ -113,6 +115,7 @@ class HomeFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 
+
     private fun houseItemClickListener() {
         houseListAdapter.onHouseItemShortClickListener = {
             hideKeyboardIfNeeded()
@@ -120,7 +123,8 @@ class HomeFragment : Fragment() {
             val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top,R.anim.slide_in_top,R.anim.slide_out_bottom)
             transaction.replace(R.id.houseListFragment, HouseDetailsFragment())
-            transaction.addToBackStack("tag")
+            homeViewModel.setVisibilityOfBottomNavigation(false)
+            transaction.addToBackStack(null)
             transaction.commit()
         }
     }

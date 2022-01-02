@@ -12,4 +12,5 @@ class CommunicatorForHouseDetailsScreen: ViewModel() {
         houseItem.value = item
     }
 
+
 }
