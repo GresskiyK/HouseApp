@@ -19,9 +19,6 @@ import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
-import com.dtt.houseapp.utils.locationservice.LocationModel
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -47,6 +44,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         initViewModel()
+        setRecycler()
         observeLocation()
         setSearchViewListener()
     }
@@ -58,12 +56,9 @@ class HomeFragment : Fragment() {
         textViewEmpty = view.findViewById(R.id.textViewEmpty)
     }
 
-    private fun setRecycler(locationModel: LocationModel){
-
+    private fun setRecycler(){
         rvLayoutManager = LinearLayoutManager(activity)
-        houseListAdapter= HouseListAdapter(this,locationModel)
-        observeViewModelSearch()
-        houseItemClickListener()
+        houseListAdapter= HouseListAdapter(this)
         with(rvHouseRecycler){
             layoutManager = rvLayoutManager
             adapter=houseListAdapter
@@ -77,7 +72,15 @@ class HomeFragment : Fragment() {
     private fun observeLocation(){
         homeViewModel.locationObject.observe(viewLifecycleOwner){
             Log.i("LocationTester",it.latitude.toString())
-                setRecycler(it)
+            if(it.latitude!=null){
+                homeViewModel.initHouseListWithLocationParam(it)
+                observeViewModelSearch()
+                houseItemClickListener()
+            }else{
+                homeViewModel.initHouseListWithLocationParam(it)
+                observeViewModelSearch()
+                houseItemClickListener()
+            }
         }
     }
 

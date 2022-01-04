@@ -1,5 +1,6 @@
 package com.dtt.houseapp.ui.houseDetailsScreen
 
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,7 +68,7 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         tvBathroom.text = item.bathroomAmount.toString()
         tvBedroom.text = item.bedroomAmount.toString()
         tvSize.text = item.size.toString()
-        tvDistance.text = "0"
+        tvDistance.text = String.format("%.1f",item.distance) + " km"
         tvDescription.text = item.description
     }
 
@@ -151,8 +152,6 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         })
-        // Add a marker in Sydney and move the camera
-
     }
 
 
