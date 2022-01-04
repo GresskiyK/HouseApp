@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -20,19 +21,41 @@ class MainScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainScreenBinding
     private lateinit var mainScreenViewModel: MainScreenViewModel
+    private lateinit var navView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+        observeBottomNavigationVisibility()
         requestLocation()
     }
 
     private fun initBottomNavigationView() {
         binding = ActivityMainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main_screen)
-        navView.setupWithNavController(navController) }
+        navView.setupWithNavController(navController)
+    }
+
+    private fun hideBottomNavigationView(){
+        navView.visibility = View.GONE
+    }
+
+    private fun showBottomNavigationView(){
+        navView.visibility = View.VISIBLE
+
+    }
+
+    private fun observeBottomNavigationVisibility(){
+        mainScreenViewModel.bottomNavigationStatus.observe(this){
+            if(it){
+                showBottomNavigationView()
+            }else{
+                hideBottomNavigationView()
+            }
+        }
+    }
 
     private fun initViewModel(){
         mainScreenViewModel =

@@ -6,6 +6,7 @@ import com.dtt.houseapp.data.API.ApiProtocol
 import com.dtt.houseapp.data.API.ApiRequests
 import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.domain.HouseListRepository
+import com.dtt.houseapp.utils.locationservice.LocationModel
 import java.util.*
 
 object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
@@ -13,10 +14,10 @@ object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
     private val houseListItems = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price) })
 
-
-    init {
-        ApiRequests().getHouseList()
-    }
+    var locationObject = LocationModel(null,null)
+        set(value) {
+            ApiRequests().getHouseList(value)
+        }
 
 
     override fun updateHouseListLiveData(houseList:Set<HouseItem>){
@@ -33,7 +34,7 @@ object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
         return houseListLiveData
     }
 
-    override fun getHouseList(list: List<HouseItem>) {
+    override fun setHouseList(list: List<HouseItem>) {
         for (item in list){
             addHouseItem(item)
         }

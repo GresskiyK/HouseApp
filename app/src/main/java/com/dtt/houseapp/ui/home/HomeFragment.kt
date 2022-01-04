@@ -19,7 +19,6 @@ import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
-import com.dtt.houseapp.utils.locationservice.LocationModel
 
 class HomeFragment : Fragment() {
 
@@ -31,7 +30,6 @@ class HomeFragment : Fragment() {
     private lateinit var imageViewEmptySearch:ImageView
     private lateinit var inputMethodManager:InputMethodManager
     private lateinit var textViewEmpty:TextView
-
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
 
     override fun onCreateView(
@@ -46,6 +44,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         initViewModel()
+        setRecycler()
         observeLocation()
         setSearchViewListener()
     }
@@ -57,11 +56,9 @@ class HomeFragment : Fragment() {
         textViewEmpty = view.findViewById(R.id.textViewEmpty)
     }
 
-    private fun setRecycler(locationModel: LocationModel){
+    private fun setRecycler(){
         rvLayoutManager = LinearLayoutManager(activity)
-        houseListAdapter= HouseListAdapter(this,locationModel)
-        observeViewModelSearch()
-        houseItemClickListener()
+        houseListAdapter= HouseListAdapter(this)
         with(rvHouseRecycler){
             layoutManager = rvLayoutManager
             adapter=houseListAdapter
@@ -75,7 +72,15 @@ class HomeFragment : Fragment() {
     private fun observeLocation(){
         homeViewModel.locationObject.observe(viewLifecycleOwner){
             Log.i("LocationTester",it.latitude.toString())
-              setRecycler(it)
+            if(it.latitude!=null){
+                homeViewModel.initHouseListWithLocationParam(it)
+                observeViewModelSearch()
+                houseItemClickListener()
+            }else{
+                homeViewModel.initHouseListWithLocationParam(it)
+                observeViewModelSearch()
+                houseItemClickListener()
+            }
         }
     }
 
@@ -113,6 +118,7 @@ class HomeFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 
+
     private fun houseItemClickListener() {
         houseListAdapter.onHouseItemShortClickListener = {
             hideKeyboardIfNeeded()
@@ -120,7 +126,8 @@ class HomeFragment : Fragment() {
             val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top,R.anim.slide_in_top,R.anim.slide_out_bottom)
             transaction.replace(R.id.houseListFragment, HouseDetailsFragment())
-            transaction.addToBackStack("tag")
+            homeViewModel.setVisibilityOfBottomNavigation(false)
+            transaction.addToBackStack(null)
             transaction.commit()
         }
     }

@@ -4,5 +4,5 @@ import com.dtt.houseapp.domain.HouseItem
 
 interface ApiProtocol {
 
-    fun getHouseList(list: List<HouseItem>){}
+    fun setHouseList(list: List<HouseItem>){}
 }

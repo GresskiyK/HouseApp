@@ -1,5 +1,6 @@
 package com.dtt.houseapp.ui.houseDetailsScreen
 
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +15,9 @@ import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
 
 import android.widget.ImageButton
 import android.widget.ScrollView
+import androidx.lifecycle.ViewModelProvider
 import com.dtt.houseapp.R
+import com.dtt.houseapp.ui.home.HomeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL
@@ -28,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
 
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
+    private lateinit var houseDetailsFragmentViewModel: HouseDetailsFragmentViewModel
     private lateinit var tvPrice: TextView
     private lateinit var tvBedroom: TextView
     private lateinit var tvBathroom: TextView
@@ -47,13 +51,13 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_house_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
+        initViewModel()
         observeCommunicatorModel()
         setListenerForImageButton()
     }
@@ -64,7 +68,7 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         tvBathroom.text = item.bathroomAmount.toString()
         tvBedroom.text = item.bedroomAmount.toString()
         tvSize.text = item.size.toString()
-        tvDistance.text = "0"
+        tvDistance.text = String.format("%.1f",item.distance) + " km"
         tvDescription.text = item.description
     }
 
@@ -87,14 +91,24 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         setTheMap()
     }
 
+    private fun initViewModel(){
+        houseDetailsFragmentViewModel = ViewModelProvider(this).get(HouseDetailsFragmentViewModel::class.java)
+    }
+
     private fun setListenerForImageButton(){
         imageButtonBack.setOnClickListener {
                     val transaction = this.activity?.supportFragmentManager?.beginTransaction()
                     transaction?.setCustomAnimations(R.anim.slide_in_top,R.anim.slide_out_bottom)
                     transaction?.remove(this)
                     transaction?.commit()
+                    this.onDestroyView()
             }
         }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        houseDetailsFragmentViewModel.setVisibilityOfBottomNavigation(true)
+    }
 
     private fun setTheMap(){
         mapFragment = childFragmentManager.findFragmentById(R.id.houseLocationMap) as SupportMapFragment
@@ -138,9 +152,9 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         })
-        // Add a marker in Sydney and move the camera
-
     }
+
+
 
 
 }

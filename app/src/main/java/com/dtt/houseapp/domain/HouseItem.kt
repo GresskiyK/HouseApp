@@ -1,7 +1,5 @@
 package com.dtt.houseapp.domain
 
-import java.util.*
-
 data class HouseItem(
     val id:Int,
     val imageLink:String,
@@ -14,6 +12,7 @@ data class HouseItem(
     val city:String,
     val latitude:Int,
     val longitude:Int,
-    val createdDate:String) {
+    val createdDate:String,
+    val distance:Float) {
 
 }

@@ -11,12 +11,11 @@
     <ImageView
         android:id="@+id/imageViewEmptySearch"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="200dp"
         android:contentDescription="Empty Search"
-        android:src="@drawable/search_state_empty"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/houseRecycler"
+        android:src="@drawable/search_state_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
@@ -26,15 +25,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gothamssm_light"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
         android:text="@string/no_results_found_perhaps_try_another_search"
         android:textColor="@color/medium"
-        android:gravity="center"
         android:textSize="18sp"
-        android:layout_marginBottom="200dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/houseRecycler"
-        app:layout_constraintStart_toEndOf="@+id/houseRecycler" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEmptySearch" />
 
 
     <androidx.recyclerview.widget.RecyclerView

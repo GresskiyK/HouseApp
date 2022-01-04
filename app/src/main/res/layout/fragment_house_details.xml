@@ -77,6 +77,7 @@
                             android:fontFamily="@font/gothamssm_bold"
                             android:textColor="@color/black"
                             android:textSize="18sp"
+                            android:maxLines="1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/imageView"
                             app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +88,7 @@
                             android:id="@+id/linearLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
+                            android:layout_marginStart="20dp"
                             android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/imageViewHouse">
