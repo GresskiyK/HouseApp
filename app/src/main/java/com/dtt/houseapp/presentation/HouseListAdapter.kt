@@ -10,22 +10,22 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dtt.houseapp.R
+import com.dtt.houseapp.databinding.FragmentHouseDetailsBinding
+import com.dtt.houseapp.databinding.HouseCardBinding
 import com.dtt.houseapp.domain.HouseItem
 
 
 /* This class is used as adapter for recyclerview of houses */
 
-
 class HouseListAdapter(private val context: Fragment) : ListAdapter<HouseItem,
         HouseListAdapter.HouseListViewHolder>(HouseItemDiff()) {
 
-
+    private lateinit var houseCardBinding: HouseCardBinding
     var onHouseItemShortClickListener: ((HouseItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseListViewHolder {
-        val viewHolder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.house_card, parent, false)
-        return HouseListViewHolder(viewHolder)
+        houseCardBinding = HouseCardBinding.inflate(LayoutInflater.from(parent.context))
+        return HouseListViewHolder(houseCardBinding)
     }
 
     override fun onBindViewHolder(holder: HouseListViewHolder, position: Int) {
@@ -42,15 +42,13 @@ class HouseListAdapter(private val context: Fragment) : ListAdapter<HouseItem,
         }
     }
 
-    class HouseListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var ivHouse: ImageView = view.findViewById(R.id.imageViewHouse)
-        var tvPrice: TextView = view.findViewById(R.id.tv_price)
-        val tvStreet: TextView = view.findViewById(R.id.tv_street)
-        val tvBedroom: TextView = view.findViewById(R.id.tv_bedroom)
-        val tvBathroom: TextView = view.findViewById(R.id.tv_bathroom)
-        val tvSize: TextView = view.findViewById(R.id.tv_size)
-        val tvDistance: TextView = view.findViewById(R.id.tv_distance)
-
-
+    class HouseListViewHolder(_binding: HouseCardBinding) : RecyclerView.ViewHolder(_binding.root) {
+        var ivHouse: ImageView = _binding.imageViewHouse
+        var tvPrice: TextView = _binding.tvPrice
+        val tvStreet: TextView = _binding.tvStreet
+        val tvBedroom: TextView = _binding.tvBedroom
+        val tvBathroom: TextView = _binding.tvBathroom
+        val tvSize: TextView = _binding.tvSize
+        val tvDistance: TextView = _binding.tvDistance
     }
 }
