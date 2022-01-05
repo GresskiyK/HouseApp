@@ -20,16 +20,19 @@ import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
 
+/* This fragment is related to the screen with list of houses */
+
+
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var houseListAdapter:HouseListAdapter
+    private lateinit var houseListAdapter: HouseListAdapter
     private var rvLayoutManager: RecyclerView.LayoutManager? = null
-    private lateinit var rvHouseRecycler:RecyclerView
+    private lateinit var rvHouseRecycler: RecyclerView
     private lateinit var searchView: SearchView
-    private lateinit var imageViewEmptySearch:ImageView
-    private lateinit var inputMethodManager:InputMethodManager
-    private lateinit var textViewEmpty:TextView
+    private lateinit var imageViewEmptySearch: ImageView
+    private lateinit var inputMethodManager: InputMethodManager
+    private lateinit var textViewEmpty: TextView
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
 
     override fun onCreateView(
@@ -37,7 +40,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home,container,false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,34 +52,34 @@ class HomeFragment : Fragment() {
         setSearchViewListener()
     }
 
-    private fun initViews(view:View){
+    private fun initViews(view: View) {
         rvHouseRecycler = view.findViewById(R.id.houseRecycler)
         searchView = view.findViewById(R.id.searchViewHouses)
         imageViewEmptySearch = view.findViewById(R.id.imageViewEmptySearch)
         textViewEmpty = view.findViewById(R.id.textViewEmpty)
     }
 
-    private fun setRecycler(){
+    private fun setRecycler() {
         rvLayoutManager = LinearLayoutManager(activity)
-        houseListAdapter= HouseListAdapter(this)
-        with(rvHouseRecycler){
+        houseListAdapter = HouseListAdapter(this)
+        with(rvHouseRecycler) {
             layoutManager = rvLayoutManager
-            adapter=houseListAdapter
+            adapter = houseListAdapter
         }
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
-    private fun observeLocation(){
-        homeViewModel.locationObject.observe(viewLifecycleOwner){
-            Log.i("LocationTester",it.latitude.toString())
-            if(it.latitude!=null){
+    private fun observeLocation() {
+        homeViewModel.locationObject.observe(viewLifecycleOwner) {
+            Log.i("LocationTester", it.latitude.toString())
+            if (it.latitude != null) {
                 homeViewModel.initHouseListWithLocationParam(it)
                 observeViewModelSearch()
                 houseItemClickListener()
-            }else{
+            } else {
                 homeViewModel.initHouseListWithLocationParam(it)
                 observeViewModelSearch()
                 houseItemClickListener()
@@ -84,15 +87,14 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observeViewModelSearch(){
-        homeViewModel.houseList.observe(viewLifecycleOwner){
-            if(it.isNotEmpty()){
+    private fun observeViewModelSearch() {
+        homeViewModel.houseList.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
                 imageViewEmptySearch.visibility = View.GONE
                 textViewEmpty.visibility = View.GONE
                 rvHouseRecycler.visibility = View.VISIBLE
                 houseListAdapter.submitList(it)
-            }
-            else{
+            } else {
                 rvHouseRecycler.visibility = View.GONE
                 textViewEmpty.visibility = View.VISIBLE
                 imageViewEmptySearch.visibility = View.VISIBLE
@@ -100,19 +102,20 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setSearchViewListener(){
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+    private fun setSearchViewListener() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(query: String?): Boolean {
                 homeViewModel.receiveFilterQuery(query.toString())
-                    return false
+                return false
             }
         })
     }
 
-    private fun hideKeyboardIfNeeded(){
+    private fun hideKeyboardIfNeeded() {
         inputMethodManager =
             requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
@@ -124,7 +127,12 @@ class HomeFragment : Fragment() {
             hideKeyboardIfNeeded()
             communicatorForHouseDetailsScreenViewModel.setHouseItem(it)
             val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top,R.anim.slide_in_top,R.anim.slide_out_bottom)
+            transaction.setCustomAnimations(
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_top,
+                R.anim.slide_in_top,
+                R.anim.slide_out_bottom
+            )
             transaction.replace(R.id.houseListFragment, HouseDetailsFragment())
             homeViewModel.setVisibilityOfBottomNavigation(false)
             transaction.addToBackStack(null)

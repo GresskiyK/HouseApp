@@ -16,6 +16,8 @@ import com.dtt.houseapp.R
 import com.dtt.houseapp.databinding.ActivityMainScreenBinding
 import com.dtt.houseapp.utils.locationservice.LocationUtility
 
+/* This class is related to main activity of the app and contains all the logic where
+activity context us needed and setting app bottom navigation with fragments  */
 
 class MainScreen : AppCompatActivity() {
 

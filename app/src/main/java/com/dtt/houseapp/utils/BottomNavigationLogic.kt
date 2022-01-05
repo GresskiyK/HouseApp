@@ -2,11 +2,14 @@ package com.dtt.houseapp.utils
 
 import androidx.lifecycle.MutableLiveData
 
-object BottomNavigationLogic:BottomNavigationRepository {
+/* This class was created to handle the hiding process of bottom navigation bar
+while opening the details page of selected house */
+
+object BottomNavigationLogic : BottomNavigationRepository {
 
     private val visibilityOfBottomNavigation = MutableLiveData<Boolean>()
 
-    private fun updateVisibility(setting:Boolean){
+    private fun updateVisibility(setting: Boolean) {
         visibilityOfBottomNavigation.value = setting
     }
 
@@ -14,7 +17,7 @@ object BottomNavigationLogic:BottomNavigationRepository {
         return visibilityOfBottomNavigation
     }
 
-    override fun updateVisibilityOfBottomNavigation(status:Boolean) {
+    override fun updateVisibilityOfBottomNavigation(status: Boolean) {
         updateVisibility(status)
     }
 }

@@ -8,16 +8,20 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 
+/* This class is related to sending location object to home fragment depending
+on location availability from MainScreen class logic */
+
 object LocationUtility: LocationUtilityRepository {
 
     private val locationAvailability = MutableLiveData<Boolean>()
     private val locationObject= MutableLiveData<LocationModel>()
 
-
+    //setting value for locationAvailability live data
     fun setLocationStatus(flag:Boolean){
-        updateLocationStatus(flag)
+        locationAvailability.value = flag
     }
 
+    //setting value for locationObject live data
     fun setLocationObject(view: Activity) {
         val fusedLocationClient: FusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(view)
@@ -35,9 +39,6 @@ object LocationUtility: LocationUtilityRepository {
         }
     }
 
-    override fun updateLocationStatus(flag: Boolean) {
-        locationAvailability.value = flag
-    }
 
     override fun updateLocationModel(locationModel: LocationModel) {
         locationObject.postValue(locationModel)

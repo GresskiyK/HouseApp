@@ -101,7 +101,7 @@
                                 android:layout_marginEnd="5dp"
                                 android:drawablePadding="5dp"
                                 android:maxLines="1"
-                                android:text="2"
+                                android:text="@string/default_bedroom_amount"
                                 android:textColor="@color/light"
                                 app:drawableLeftCompat="@drawable/ic_bed" />
 
@@ -113,7 +113,7 @@
                                 android:layout_marginHorizontal="5dp"
                                 android:drawablePadding="5dp"
                                 android:maxLines="1"
-                                android:text="2"
+                                android:text="@string/default_bathroom_amount"
                                 android:textColor="@color/light"
                                 app:drawableLeftCompat="@drawable/ic_bath" />
 
@@ -125,7 +125,7 @@
                                 android:layout_marginHorizontal="5dp"
                                 android:drawablePadding="5dp"
                                 android:maxLines="1"
-                                android:text="59"
+                                android:text="@string/default_size_amount"
                                 android:textColor="@color/light"
                                 app:drawableLeftCompat="@drawable/ic_layers" />
 
@@ -137,7 +137,7 @@
                                 android:layout_marginHorizontal="5dp"
                                 android:drawablePadding="5dp"
                                 android:maxLines="1"
-                                android:text="54.4"
+                                android:text="@string/default_distance"
                                 android:textColor="@color/light"
                                 app:drawableLeftCompat="@drawable/ic_location" />
                         </LinearLayout>

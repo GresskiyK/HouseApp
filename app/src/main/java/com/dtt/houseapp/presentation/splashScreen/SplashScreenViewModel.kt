@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/* View model of SplashScreen activity */
+
 class SplashScreenViewModel(application: Application) : AndroidViewModel(application) {
 
-    var liveData: MutableLiveData<Boolean> = MutableLiveData()
+    var showingStatusForSplashScreen: MutableLiveData<Boolean> = MutableLiveData()
 
+    //showing splash screen with delay
     fun initSplashScreen() {
         viewModelScope.launch {
             delay(2000)
@@ -19,6 +22,6 @@ class SplashScreenViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private fun startShowMainScreen() {
-        liveData.value = true
+        showingStatusForSplashScreen.value = true
     }
 }

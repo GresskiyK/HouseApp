@@ -8,13 +8,13 @@ import com.dtt.houseapp.utils.BottomNavigationLogic
 import com.dtt.houseapp.utils.BottomNavigationRepository
 import com.dtt.houseapp.utils.locationservice.LocationUtility
 
-class MainScreenViewModel:ViewModel() {
+
+/* View model of MainScreen class */
+
+class MainScreenViewModel : ViewModel() {
 
     private val repository = BottomNavigationLogic
     private val getStatusOfBottomNavigation = GetBottomNavigationStatus(repository)
 
     val bottomNavigationStatus = getStatusOfBottomNavigation.getBottomNavigationStatus()
-
-
-
 }

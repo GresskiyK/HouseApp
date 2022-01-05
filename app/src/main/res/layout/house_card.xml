@@ -85,7 +85,7 @@
                 android:layout_marginEnd="5dp"
                 android:textColor="@color/light"
                 android:maxLines="1"
-                android:text="2"
+                android:text="@string/default_bedroom_amount"
                 app:drawableLeftCompat="@drawable/ic_bed" />
 
             <TextView
@@ -97,7 +97,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:textColor="@color/light"
                 android:maxLines="1"
-                android:text="2"
+                android:text="@string/default_bathroom_amount"
                 app:drawableLeftCompat="@drawable/ic_bath" />
 
             <TextView
@@ -109,7 +109,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:textColor="@color/light"
                 android:maxLines="1"
-                android:text="59"
+                android:text="@string/default_size_amount"
                 app:drawableLeftCompat="@drawable/ic_layers" />
 
             <TextView
@@ -121,7 +121,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:textColor="@color/light"
                 android:maxLines="1"
-                android:text="54.4"
+                android:text="@string/default_distance"
                 app:drawableLeftCompat="@drawable/ic_location" />
         </LinearLayout>
 

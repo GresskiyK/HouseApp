@@ -10,12 +10,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.ArrayList
 
-
+/* This class is used for sending request to get the full house list from API */
 class ApiRequests{
 
     private val repository = HouseListRepositoryImpl
 
 
+    //function for sending request to API
     fun getHouseList(locationObject: LocationModel){
         val results = FloatArray(1)
         val retrofit=Retrofit().retrofitForHouseAPI().getHouseList()
@@ -25,12 +26,12 @@ class ApiRequests{
                 response: Response<List<HouseAPIModel>>
             ) {
                 val responseArray = response.body()
-                val houseItemsList = ArrayList<HouseItem>()
+                val sortedHouseList = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price)})
                 if (responseArray != null){
                     for (i in 0 until (responseArray.size)) {
                         if(locationObject.latitude!=null && locationObject.longitude!=null){
                             Location.distanceBetween(locationObject.latitude!!, locationObject.longitude!!, responseArray[i].latitude.toDouble(), responseArray[i].longitude.toDouble(),results)
-                            houseItemsList.add(
+                            sortedHouseList.add(
                                 HouseItem(
                                     responseArray[i].id,
                                     "https://intern.docker-dev.d-tt.nl"+ responseArray[i].image,
@@ -48,7 +49,7 @@ class ApiRequests{
                                 )
                             )
                         }else{
-                            houseItemsList.add(
+                            sortedHouseList.add(
                                 HouseItem(
                                     responseArray[i].id,
                                     "https://intern.docker-dev.d-tt.nl"+ responseArray[i].image,
@@ -71,7 +72,7 @@ class ApiRequests{
                     }
                 }
 
-                repository.setHouseList(houseItemsList)
+                repository.setHouseList(sortedHouseList)
             }
 
             override fun onFailure(call: Call<List<HouseAPIModel>>, t: Throwable) {

@@ -9,41 +9,43 @@ import com.dtt.houseapp.domain.HouseListRepository
 import com.dtt.houseapp.utils.locationservice.LocationModel
 import java.util.*
 
-object HouseListRepositoryImpl:HouseListRepository,ApiProtocol {
+/* This class contains all the logic for working with live data house list and search option*/
+
+object HouseListRepositoryImpl : HouseListRepository, ApiProtocol {
 
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
-    private val houseListItems = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price) })
 
-    var locationObject = LocationModel(null,null)
+    //list is used for saving all the cached houses, in order to use search option with zip code
+    private lateinit var fullHouseList: Set<HouseItem>
+
+    var locationObject = LocationModel(null, null)
         set(value) {
             ApiRequests().getHouseList(value)
         }
 
-
-    override fun updateHouseListLiveData(houseList:Set<HouseItem>){
-
+    //updating live data of houses list
+    override fun updateHouseListLiveData(houseList: Set<HouseItem>) {
         houseListLiveData.postValue(houseList.toList())
     }
 
-    override fun addHouseItem(houseItem: HouseItem) {
-        houseListItems.add(houseItem)
-        updateHouseListLiveData(houseListItems)
+    //getting house list from api
+    override fun setHouseList(list: Set<HouseItem>) {
+        fullHouseList = list
+        updateHouseListLiveData(fullHouseList)
     }
 
+    //getting house list live data
     override fun houseList(): LiveData<List<HouseItem>> {
         return houseListLiveData
     }
 
-    override fun setHouseList(list: List<HouseItem>) {
-        for (item in list){
-            addHouseItem(item)
-        }
-    }
-
+    //searching compliant houses with query
     override fun searchHouse(query: String) {
         val filteredHouses = sortedSetOf<HouseItem>({ p0, p1 -> p0.price.compareTo(p1.price) })
-        for (item in houseListItems){
-            if (item.zip.lowercase(Locale.getDefault()).contains(query.lowercase(Locale.getDefault()))){
+        for (item in fullHouseList) {
+            if (item.zip.lowercase(Locale.getDefault())
+                    .contains(query.lowercase(Locale.getDefault()))
+            ) {
                 filteredHouses.add(item)
             }
         }
