@@ -27,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+/* This fragment is related to the screen with details of selected house */
 
 class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -39,12 +40,10 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var tvDistance: TextView
     private lateinit var tvDescription: TextView
     private lateinit var imageViewHouseDetail: ImageView
-    private lateinit var imageButtonBack:ImageButton
-    private lateinit var mapFragment:SupportMapFragment
+    private lateinit var imageButtonBack: ImageButton
+    private lateinit var mapFragment: SupportMapFragment
     private lateinit var mMap: GoogleMap
-    private lateinit var scrollView:ScrollView
-
-
+    private lateinit var scrollView: ScrollView
 
 
     override fun onCreateView(
@@ -62,23 +61,23 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         setListenerForImageButton()
     }
 
-    private fun setDataFromHouseItem(item:HouseItem){
+    private fun setDataFromHouseItem(item: HouseItem) {
         Glide.with(requireActivity()).load(item.imageLink).into(imageViewHouseDetail)
-        tvPrice.text = "$"+String.format("%,d", item.price)
+        tvPrice.text = "$" + String.format("%,d", item.price)
         tvBathroom.text = item.bathroomAmount.toString()
         tvBedroom.text = item.bedroomAmount.toString()
         tvSize.text = item.size.toString()
-        tvDistance.text = String.format("%.1f",item.distance) + " km"
+        tvDistance.text = String.format("%.1f", item.distance) + " km"
         tvDescription.text = item.description
     }
 
-    private fun observeCommunicatorModel(){
+    private fun observeCommunicatorModel() {
         communicatorForHouseDetailsScreenViewModel.houseItem.observe(viewLifecycleOwner, {
             setDataFromHouseItem(it)
         })
     }
 
-    private fun initViews(view:View){
+    private fun initViews(view: View) {
         tvPrice = view.findViewById(R.id.tv_price)
         tvBedroom = view.findViewById(R.id.tv_bedroom)
         tvBathroom = view.findViewById(R.id.tv_bathroom)
@@ -91,39 +90,42 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         setTheMap()
     }
 
-    private fun initViewModel(){
-        houseDetailsFragmentViewModel = ViewModelProvider(this).get(HouseDetailsFragmentViewModel::class.java)
+    private fun initViewModel() {
+        houseDetailsFragmentViewModel =
+            ViewModelProvider(this).get(HouseDetailsFragmentViewModel::class.java)
     }
 
-    private fun setListenerForImageButton(){
+    private fun setListenerForImageButton() {
         imageButtonBack.setOnClickListener {
-                    val transaction = this.activity?.supportFragmentManager?.beginTransaction()
-                    transaction?.setCustomAnimations(R.anim.slide_in_top,R.anim.slide_out_bottom)
-                    transaction?.remove(this)
-                    transaction?.commit()
-                    this.onDestroyView()
-            }
+            val transaction = this.activity?.supportFragmentManager?.beginTransaction()
+            transaction?.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom)
+            transaction?.remove(this)
+            transaction?.commit()
+            this.onDestroyView()
         }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         houseDetailsFragmentViewModel.setVisibilityOfBottomNavigation(true)
     }
 
-    private fun setTheMap(){
-        mapFragment = childFragmentManager.findFragmentById(R.id.houseLocationMap) as SupportMapFragment
+    private fun setTheMap() {
+        mapFragment =
+            childFragmentManager.findFragmentById(R.id.houseLocationMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(map: GoogleMap) {
         communicatorForHouseDetailsScreenViewModel.houseItem.observe(viewLifecycleOwner, { item ->
             mMap = map
-            val house = LatLng(	item.latitude.toDouble(), item.longitude.toDouble())
+            val house = LatLng(item.latitude.toDouble(), item.longitude.toDouble())
             val marker = mMap.addMarker(
                 MarkerOptions()
                     .position(house)
                     .title("Marker on selected house")
-                    .visible(true))
+                    .visible(true)
+            )
             mMap.isBuildingsEnabled = true
             mMap.mapType = MAP_TYPE_NORMAL
             if (marker != null) {
@@ -153,8 +155,6 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
             }
         })
     }
-
-
 
 
 }

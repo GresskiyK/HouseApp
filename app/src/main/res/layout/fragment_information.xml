@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gothamssm_book"
-            android:text="by DTT"
+            android:text="@string/by_dtt"
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="12sp"

@@ -12,7 +12,7 @@
         android:id="@+id/imageViewEmptySearch"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:contentDescription="Empty Search"
+        android:contentDescription="@string/empty_search"
         android:visibility="gone"
         android:src="@drawable/search_state_empty"
         app:layout_constraintBottom_toBottomOf="parent"

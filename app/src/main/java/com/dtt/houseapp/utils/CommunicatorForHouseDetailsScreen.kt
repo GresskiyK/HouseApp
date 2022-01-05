@@ -4,11 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dtt.houseapp.domain.HouseItem
 
-class CommunicatorForHouseDetailsScreen: ViewModel() {
+/* This class is used for sending clicked house object from fragment with list of houses
+to fragment with detailed information for this house */
+
+class CommunicatorForHouseDetailsScreen : ViewModel() {
 
     val houseItem = MutableLiveData<HouseItem>()
 
-    fun setHouseItem(item:HouseItem){
+    //setting value to houseItem live data
+    fun setHouseItem(item: HouseItem) {
         houseItem.value = item
     }
 

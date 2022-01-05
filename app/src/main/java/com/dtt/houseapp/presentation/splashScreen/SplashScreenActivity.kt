@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.dtt.houseapp.R
 import com.dtt.houseapp.presentation.mainScreen.MainScreen
 
+/* This class is used for making custom splash screen with DTT logo */
+
+
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var splashViewModel: SplashScreenViewModel
 
@@ -19,17 +22,16 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
 
-
     private fun initViewModel() {
         splashViewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
     }
 
-    private fun initSplashScreen(){
+    private fun initSplashScreen() {
         splashViewModel.initSplashScreen()
     }
 
     private fun observeSplashLiveData() {
-        splashViewModel.liveData.observe(this){
+        splashViewModel.showingStatusForSplashScreen.observe(this) {
             val intent = Intent(this, MainScreen::class.java)
             startActivity(intent)
             finish()
