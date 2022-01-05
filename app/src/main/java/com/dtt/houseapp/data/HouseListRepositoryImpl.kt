@@ -2,11 +2,14 @@ package com.dtt.houseapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.dtt.houseapp.data.API.ApiProtocol
 import com.dtt.houseapp.data.API.ApiRequests
 import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.domain.HouseListRepository
 import com.dtt.houseapp.utils.locationservice.LocationModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 /* This class contains all the logic for working with live data house list and search option*/
