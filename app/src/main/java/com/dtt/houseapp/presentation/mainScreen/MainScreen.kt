@@ -21,7 +21,7 @@ activity context us needed and setting app bottom navigation with fragments  */
 
 class MainScreen : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainScreenBinding
+    private lateinit var mainScreenBinding: ActivityMainScreenBinding
     private lateinit var mainScreenViewModel: MainScreenViewModel
     private lateinit var navView: BottomNavigationView
 
@@ -33,9 +33,9 @@ class MainScreen : AppCompatActivity() {
     }
 
     private fun initBottomNavigationView() {
-        binding = ActivityMainScreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        navView = binding.navView
+        mainScreenBinding = ActivityMainScreenBinding.inflate(layoutInflater)
+        setContentView(mainScreenBinding.root)
+        navView = mainScreenBinding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main_screen)
         navView.setupWithNavController(navController)
     }

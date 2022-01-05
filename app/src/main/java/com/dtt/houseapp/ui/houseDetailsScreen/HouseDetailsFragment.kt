@@ -17,6 +17,8 @@ import android.widget.ImageButton
 import android.widget.ScrollView
 import androidx.lifecycle.ViewModelProvider
 import com.dtt.houseapp.R
+import com.dtt.houseapp.databinding.FragmentHomeBinding
+import com.dtt.houseapp.databinding.FragmentHouseDetailsBinding
 import com.dtt.houseapp.ui.home.HomeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -30,6 +32,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 /* This fragment is related to the screen with details of selected house */
 
 class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
+
+    private lateinit var houseDetailsFragmentBinding: FragmentHouseDetailsBinding
 
     private val communicatorForHouseDetailsScreenViewModel: CommunicatorForHouseDetailsScreen by activityViewModels()
     private lateinit var houseDetailsFragmentViewModel: HouseDetailsFragmentViewModel
@@ -47,15 +51,17 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_house_details, container, false)
+    ): View {
+        houseDetailsFragmentBinding = FragmentHouseDetailsBinding.inflate(inflater)
+        return houseDetailsFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews(view)
+        initViews()
         initViewModel()
         observeCommunicatorModel()
         setListenerForImageButton()
@@ -77,16 +83,16 @@ class HouseDetailsFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
-    private fun initViews(view: View) {
-        tvPrice = view.findViewById(R.id.tv_price)
-        tvBedroom = view.findViewById(R.id.tv_bedroom)
-        tvBathroom = view.findViewById(R.id.tv_bathroom)
-        tvSize = view.findViewById(R.id.tv_size)
-        tvDistance = view.findViewById(R.id.tv_distance)
-        tvDescription = view.findViewById(R.id.tvDescription)
-        imageViewHouseDetail = view.findViewById(R.id.imageViewHouseDetail)
-        imageButtonBack = view.findViewById(R.id.imageButtonBack)
-        scrollView = view.findViewById(R.id.scrollViewHouseContent)
+    private fun initViews() {
+        tvPrice = houseDetailsFragmentBinding.tvPrice
+        tvBedroom = houseDetailsFragmentBinding.tvBedroom
+        tvBathroom = houseDetailsFragmentBinding.tvBathroom
+        tvSize = houseDetailsFragmentBinding.tvSize
+        tvDistance = houseDetailsFragmentBinding.tvDistance
+        tvDescription = houseDetailsFragmentBinding.tvDescription
+        imageViewHouseDetail = houseDetailsFragmentBinding.imageViewHouseDetail
+        imageButtonBack = houseDetailsFragmentBinding.imageButtonBack
+        scrollView = houseDetailsFragmentBinding.scrollViewHouseContent
         setTheMap()
     }
 

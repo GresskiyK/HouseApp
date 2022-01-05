@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dtt.houseapp.R
+import com.dtt.houseapp.databinding.ActivityMainScreenBinding
+import com.dtt.houseapp.databinding.FragmentHomeBinding
 import com.dtt.houseapp.presentation.HouseListAdapter
 import com.dtt.houseapp.ui.houseDetailsScreen.HouseDetailsFragment
 import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
@@ -24,6 +26,8 @@ import com.dtt.houseapp.utils.CommunicatorForHouseDetailsScreen
 
 
 class HomeFragment : Fragment() {
+
+    private lateinit var homeFragmentBinding: FragmentHomeBinding
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var houseListAdapter: HouseListAdapter
@@ -39,24 +43,25 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        homeFragmentBinding = FragmentHomeBinding.inflate(inflater)
+        return homeFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews(view)
+        initViews()
         initViewModel()
         setRecycler()
         observeLocation()
         setSearchViewListener()
     }
 
-    private fun initViews(view: View) {
-        rvHouseRecycler = view.findViewById(R.id.houseRecycler)
-        searchView = view.findViewById(R.id.searchViewHouses)
-        imageViewEmptySearch = view.findViewById(R.id.imageViewEmptySearch)
-        textViewEmpty = view.findViewById(R.id.textViewEmpty)
+    private fun initViews() {
+        rvHouseRecycler = homeFragmentBinding.houseRecycler
+        searchView = homeFragmentBinding.searchViewHouses
+        imageViewEmptySearch = homeFragmentBinding.imageViewEmptySearch
+        textViewEmpty = homeFragmentBinding.textViewEmpty
     }
 
     private fun setRecycler() {
@@ -133,7 +138,7 @@ class HomeFragment : Fragment() {
                 R.anim.slide_in_top,
                 R.anim.slide_out_bottom
             )
-            transaction.replace(R.id.houseListFragment, HouseDetailsFragment())
+            transaction.replace(this.id, HouseDetailsFragment())
             homeViewModel.setVisibilityOfBottomNavigation(false)
             transaction.addToBackStack(null)
             transaction.commit()
