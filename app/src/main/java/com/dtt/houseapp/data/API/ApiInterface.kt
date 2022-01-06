@@ -1,6 +1,7 @@
 package com.dtt.houseapp.data.API
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
@@ -12,5 +13,5 @@ interface ApiInterface {
         "Access-Key: 98bww4ezuzfePCYFxJEWyszbUXc7dxRx"
     )
     @GET("api/house")
-    fun getHouseList(): Call<List<HouseAPIModel>>
+    suspend fun getHouseList(): Response<List<HouseAPIModel>>
 }

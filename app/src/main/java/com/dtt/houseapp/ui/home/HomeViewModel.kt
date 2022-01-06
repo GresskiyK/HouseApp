@@ -16,7 +16,7 @@ import com.dtt.houseapp.utils.locationservice.LocationUtility
 
 class HomeViewModel : ViewModel() {
 
-    private lateinit var houseListRepository: HouseListRepositoryImpl
+    private val houseListRepository = HouseListRepositoryImpl
     private val locationRepository = LocationUtility
     private val bottomNavigationRepository = BottomNavigationLogic
 
@@ -32,7 +32,6 @@ class HomeViewModel : ViewModel() {
     //starting to show house list depending on location availability
     fun initHouseListWithLocationParam(locationModel: LocationModel) {
         HouseListRepositoryImpl.locationObject = locationModel
-        houseListRepository = HouseListRepositoryImpl
         getHouseListCase = GetHouseListUseCase(houseListRepository)
         searchHouseItemCase = SearchHouseItemCase(houseListRepository)
         houseList = getHouseListCase.getHouseList()

@@ -2,18 +2,18 @@ package com.dtt.houseapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.dtt.houseapp.data.API.ApiProtocol
 import com.dtt.houseapp.data.API.ApiRequests
 import com.dtt.houseapp.domain.HouseItem
 import com.dtt.houseapp.domain.HouseListRepository
 import com.dtt.houseapp.utils.locationservice.LocationModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 /* This class contains all the logic for working with live data house list and search option*/
-
 object HouseListRepositoryImpl : HouseListRepository, ApiProtocol {
 
     private val houseListLiveData = MutableLiveData<List<HouseItem>>()
@@ -23,9 +23,17 @@ object HouseListRepositoryImpl : HouseListRepository, ApiProtocol {
 
     var locationObject = LocationModel(null, null)
         set(value) {
-            ApiRequests().getHouseList(value)
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = ApiRequests().getHouseList(value)
+                bindDataWithUi(result)
+            }
         }
 
+    private suspend fun bindDataWithUi(houses:Set<HouseItem>){
+        withContext(Dispatchers.Main){
+            setHouseList(houses)
+        }
+    }
     //updating live data of houses list
     override fun updateHouseListLiveData(houseList: Set<HouseItem>) {
         houseListLiveData.postValue(houseList.toList())
