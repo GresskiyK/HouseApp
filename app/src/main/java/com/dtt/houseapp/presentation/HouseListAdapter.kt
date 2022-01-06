@@ -24,7 +24,7 @@ class HouseListAdapter(private val context: Fragment) : ListAdapter<HouseItem,
     var onHouseItemShortClickListener: ((HouseItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseListViewHolder {
-        houseCardBinding = HouseCardBinding.inflate(LayoutInflater.from(parent.context))
+        houseCardBinding = HouseCardBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.house_card, parent, false))
         return HouseListViewHolder(houseCardBinding)
     }
 
