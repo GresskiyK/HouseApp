@@ -41,7 +41,7 @@ object LocationUtility: LocationUtilityRepository {
 
 
     override fun updateLocationModel(locationModel: LocationModel) {
-        locationObject.postValue(locationModel)
+        locationObject.value = locationModel
     }
 
     override fun getLocationObject(): LiveData<LocationModel> {

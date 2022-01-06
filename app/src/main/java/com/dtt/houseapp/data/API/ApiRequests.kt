@@ -14,9 +14,6 @@ import java.util.ArrayList
 /* This class is used for sending request to get the full house list from API */
 class ApiRequests{
 
-    private val repository = HouseListRepositoryImpl
-
-
     //function for sending request to API
     suspend fun getHouseList(locationObject: LocationModel):Set<HouseItem>{
         val results = FloatArray(1)
